@@ -16,6 +16,9 @@ This document records technical, browser API, and platform assumptions made duri
 - **Local Storage**:
   - Assumption: Available on most modern browsers, but can throw errors in private browsing modes (e.g. Safari Private Mode quota exceeded / security errors) or if disabled by enterprise policies.
   - Requirement: Strict try/catch wrapping around every storage read/write operation with in-memory fallback so the app does not crash.
+- **Card Storage Retention**:
+  - Assumption: Keeping the 20 most recent cards is optimal for low-friction memory retrieval without requiring manual purge controls or risking local storage overflow.
+
 
 ## Platform & Performance
 - **Zero Network Dependency**: Core app runs completely client-side without network requests.

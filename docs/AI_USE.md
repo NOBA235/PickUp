@@ -15,3 +15,12 @@ In compliance with hackathon rules and transparent development standards, this d
   - Creating semantic HTML landmarks and skip-link skeleton.
   - Drafting initial ADR, assumptions, and retrospective documentation.
 - **Verification**: Every script, test, build, and token was executed and validated locally.
+
+## Phase 1: Data Model & Storage
+- **Model / System**: Google DeepMind / Antigravity AI Assistant.
+- **Assisted Areas**:
+  - Authoring TypeScript types for `Card`, `CardStatus`, and `CardSource`.
+  - Designing defensive `src/storage/index.ts` with transparent `memoryFallbackStore` for blocked/erroring environments and automatic 20-card cap enforcement.
+  - Formulating 15 Vitest unit tests covering empty state, corrupt JSON, security errors / blocked storage, and 20-card pruning.
+- **Verification**: Tests and TypeScript checks were executed and validated locally (15 passing tests).
+

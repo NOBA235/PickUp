@@ -26,3 +26,14 @@ This document tracks significant design, technical, and architectural decisions 
   - Enforce calm UI principles: single primary action per screen, no guilt-inducing overdue alerts or streaks.
   - Full keyboard accessibility, 44px min touch targets, WCAG AA contrast (4.5:1 text, 3:1 UI borders), explicit skip link, and respecting `prefers-reduced-motion`.
 - **Consequences**: Highly usable and neurodivergent-friendly experience that fulfills hackathon judging criteria.
+
+## ADR-0004: Versioned Card Storage, Defensive Error Handling & 20-Card Retention Cap
+- **Status**: Accepted
+- **Context**: LocalStorage can be blocked (e.g. strict privacy modes, iframes, quota limits) or corrupted by external scripts. The app must never crash, and state must survive in-memory during active sessions.
+- **Decision**:
+  - Store cards under versioned key `pickup_cards_v1`.
+  - Wrap all reads and writes in `try/catch`.
+  - Provide an automatic in-memory fallback store (`memoryFallbackStore`) that synchronizes seamlessly if localStorage is blocked or throws.
+  - Enforce a 20-card retention cap (newest first, oldest discarded) to keep storage footprint bounded and UI focused on recent context.
+- **Consequences**: Zero storage crashes; guaranteed bounded storage size; graceful degradation across all environments.
+
