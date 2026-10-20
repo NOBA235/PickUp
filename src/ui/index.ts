@@ -1,22 +1,17 @@
 /**
- * UI Layer Entry & Placeholder Handler
+ * UI Layer Entry
+ * Renders the active application view into #app-view.
  */
 
-import { announce } from '../lib/announce';
+import { renderParkView } from './parkView';
 
 export function initializeUI(): void {
-  const parkBtn = document.getElementById('btn-quick-park');
-  const resumeBtn = document.getElementById('btn-quick-resume');
-
-  if (parkBtn) {
-    parkBtn.addEventListener('click', () => {
-      announce('Ready to park your task. Parking screen coming in Phase 1.');
-    });
+  const viewContainer = document.getElementById('app-view');
+  if (!viewContainer) {
+    console.error('[PickUp:UI] Could not find #app-view container.');
+    return;
   }
 
-  if (resumeBtn) {
-    resumeBtn.addEventListener('click', () => {
-      announce('Resume flow coming in Phase 2.');
-    });
-  }
+  // Phase 2: Render the primary "Park It" capture flow
+  renderParkView(viewContainer);
 }

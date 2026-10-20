@@ -19,3 +19,12 @@ This log tracks surprises, roadblocks, unexpected browser quirks, and lessons le
 - **20-Card Bounded Cap**:
   - *Observation*: Pruning oldest cards during insertion guarantees that neither storage quotas nor DOM lists grow unbounded over time.
 
+## Phase 2: Park It Flow, Web Speech & Autosave
+- **IME-Safe Shortcut Handling**:
+  - *Observation*: Using `Ctrl+Enter` / `Cmd+Enter` provides a fast path for keyboard users, but checking `event.isComposing` prevents accidental early submission during IME character conversion for multilingual users.
+- **Graceful Speech API Fallback**:
+  - *Observation*: The Web Speech API is missing or vendor-prefixed in many browsers (e.g. desktop Firefox). Rather than rendering disabled buttons that frustrate users, dynamically hiding the control and explaining the alternative in calm, plain text maintains a smooth user experience.
+- **Refresh Resilience**:
+  - *Observation*: Pairing active card persistence with draft autosaving eliminates the fear of losing thought fragments during sudden tab reloads or battery drops.
+
+

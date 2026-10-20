@@ -37,3 +37,15 @@ This document tracks significant design, technical, and architectural decisions 
   - Enforce a 20-card retention cap (newest first, oldest discarded) to keep storage footprint bounded and UI focused on recent context.
 - **Consequences**: Zero storage crashes; guaranteed bounded storage size; graceful degradation across all environments.
 
+## ADR-0005: Single Capture Screen, Speech Feature Detection & Draft Autosave
+- **Status**: Accepted
+- **Context**: Users with ADHD or cognitive fatigue lose their train of thought in seconds when interrupted. The UI must provide a single primary action, zero clutter, and survive accidental tab closures or refreshes.
+- **Decision**:
+  - Implement a dedicated "Park It" capture screen with one primary submit button.
+  - Autosave unsubmitted notes to `pickup_draft_v1` on every keystroke, restoring drafts automatically upon tab reload.
+  - Feature-detect the Web Speech API (`SpeechRecognition` / `webkitSpeechRecognition`). If supported, offer voice input with accessible live state updates; if unsupported, hide the microphone button and provide plain-text explanation without blocking the flow.
+  - Provide `Ctrl+Enter` and `Cmd+Enter` keyboard submission with IME composition guarding (`event.isComposing`).
+  - Announce parking confirmation through an `aria-live="polite"` landmark.
+- **Consequences**: Instant capture with zero friction; resilient against accidental refreshes; completely keyboard operable.
+
+

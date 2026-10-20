@@ -24,3 +24,13 @@ In compliance with hackathon rules and transparent development standards, this d
   - Formulating 15 Vitest unit tests covering empty state, corrupt JSON, security errors / blocked storage, and 20-card pruning.
 - **Verification**: Tests and TypeScript checks were executed and validated locally (15 passing tests).
 
+## Phase 2: Park It Flow
+- **Model / System**: Google DeepMind / Antigravity AI Assistant.
+- **Assisted Areas**:
+  - Consulting `modern-web-guidance` (`ime-safe-enter-submit`) for keyboard shortcut accessibility and IME event guarding.
+  - Designing Web Speech API detection wrapper with graceful degradation when speech recognition is absent.
+  - Building draft autosave mechanism in `src/storage/draftStorage.ts`.
+  - Implementing accessible `ParkView` component with single-action layout, aria-live confirmation, and persistent parked card display.
+- **Verification**: 21 unit tests passing in Vitest; verified build and dev server.
+
+
