@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="PickUp — A bookmark for your brain. Park your mental state in 10 seconds and resume focus effortlessly after an interruption."
+    />
+    <title>PickUp</title>
+    <link rel="stylesheet" href="./src/styles/base.css" />
+  </head>
+  <body>
+    <!-- Accessible Skip Link (First focusable element) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="app-container">
+      <!-- Semantic Landmark: Header -->
+      <header role="banner" class="site-header">
+        <div class="brand">
+          <span class="brand-title" style="font-size: var(--text-xl); font-weight: 700; color: var(--color-text-primary);">PickUp</span>
+        </div>
+        <span class="badge" style="font-size: var(--text-xs); color: var(--color-text-muted); padding: var(--space-1) var(--space-2); border: 1px solid var(--color-border); border-radius: var(--radius-sm);">
+          Phase 0 • Scaffold
+        </span>
+      </header>
+
+      <!-- Semantic Landmark: Main Content -->
+      <main id="main-content" role="main" class="site-main" tabindex="-1">
+        <section aria-labelledby="welcome-heading" class="card">
+          <h1 id="welcome-heading">PickUp</h1>
+          <p style="margin-top: var(--space-2); margin-bottom: var(--space-6);">
+            A bookmark for your brain. Park what you were doing in 10 seconds, then resume with zero friction when you are ready.
+          </p>
+          <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+            <button type="button" class="button button-primary" id="btn-quick-park">
+              Park It
+            </button>
+            <button type="button" class="button button-secondary" id="btn-quick-resume">
+              Resume
+            </button>
+          </div>
+        </section>
+
+        <!-- Live announcement region for accessible state changes -->
+        <div id="live-region" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+      </main>
+
+      <!-- Semantic Landmark: Footer -->
+      <footer role="contentinfo" class="site-footer">
+        <p>PickUp • 100% on-device local storage. No trackers, no accounts.</p>
+      </footer>
+    </div>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

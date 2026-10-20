@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Production build output
+dist/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Vitest / coverage
+coverage/
+
+# Vite cache
+.vite/
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.log
