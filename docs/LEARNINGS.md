@@ -27,4 +27,13 @@ This log tracks surprises, roadblocks, unexpected browser quirks, and lessons le
 - **Refresh Resilience**:
   - *Observation*: Pairing active card persistence with draft autosaving eliminates the fear of losing thought fragments during sudden tab reloads or battery drops.
 
+## Phase 3: Rule-Based Card Extraction & Review Screen
+- **Regex Whitespace Boundaries**:
+  - *Observation*: In regex patterns like `next\s+(?:step\s+is)?\s+`, an empty optional group forced two whitespace characters instead of one, accidentally causing bare `"Next write..."` clauses to fall through to fallback logic. Grouping optional subphrases directly into `next(?:\s+(?:step\s+is|...))?\s+` resolved the issue.
+- **Calm, Honest Framing**:
+  - *Observation*: Labeling extracted cues as "Rule-based draft" sets realistic user expectations and avoids overpromising intelligence or claiming semantic "comprehension."
+- **5-Minute Action Framing**:
+  - *Observation*: Executive dysfunction and task resumption hesitation are drastically reduced when "next action" is phrased as a concrete 5-minute warm-up (e.g., "Spend 5 minutes to...") rather than a daunting open-ended project goal.
+
+
 

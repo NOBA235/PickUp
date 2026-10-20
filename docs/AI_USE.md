@@ -33,4 +33,13 @@ In compliance with hackathon rules and transparent development standards, this d
   - Implementing accessible `ParkView` component with single-action layout, aria-live confirmation, and persistent parked card display.
 - **Verification**: 21 unit tests passing in Vitest; verified build and dev server.
 
+## Phase 3: Card Builder (Rules Only) & Review Screen
+- **Model / System**: Google DeepMind / Antigravity AI Assistant.
+- **Assisted Areas**:
+  - Authoring deterministic cue-extraction heuristics (`extractCardCues`) in `src/lib/cardBuilder.ts`.
+  - Creating 14 robust edge-case fixtures in `test/fixtures/cardExtractorFixtures.ts` covering non-English text, long input, and run-ons.
+  - Designing the accessible Review Screen component (`src/ui/reviewView.ts`) with clear non-AI heuristic disclosures.
+- **Verification**: 25 unit tests passing in Vitest; complete TypeScript check and build validation.
+
+
 

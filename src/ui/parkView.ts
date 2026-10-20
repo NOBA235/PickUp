@@ -1,19 +1,22 @@
 /**
- * Park It Capture View Component (Phase 2)
+ * Park It Capture View Component (Phases 2 & 3)
  *
  * Implements:
  * - Single capture screen with one large "Park it" primary action
  * - Properly labelled textarea with draft autosave
  * - Feature-detected Web Speech API with plain-text fallback explanation
  * - Keyboard shortcuts (Ctrl+Enter / Cmd+Enter)
- * - aria-live announcements and stub confirmation
+ * - Deterministic cue extraction and Review screen before saving
+ * - aria-live announcements and full card confirmation
  */
 
 import { announce } from '../lib/announce';
+import { extractCardCues } from '../lib/cardBuilder';
 import { createSpeechRecognizer, isSpeechRecognitionSupported, SpeechRecognizer } from '../lib/speech';
-import { createCard } from '../model/card';
-import { getLatestParked, saveCard } from '../storage';
-import { clearDraft, getDraft, saveDraft } from '../storage/draftStorage';
+import { Card } from '../model/card';
+import { getLatestParked } from '../storage';
+import { getDraft, saveDraft } from '../storage/draftStorage';
+import { renderReviewView } from './reviewView';
 
 export function renderParkView(container: HTMLElement): void {
   // Check if a parked note exists to show persistent state across refresh
@@ -23,7 +26,7 @@ export function renderParkView(container: HTMLElement): void {
   const isFreshCaptureRequested = container.dataset.viewState === 'capture';
 
   if (latestParked && !isFreshCaptureRequested) {
-    renderConfirmation(container, latestParked.rawText, latestParked.createdAt);
+    renderConfirmation(container, latestParked);
     return;
   }
 
@@ -61,7 +64,7 @@ function renderCaptureForm(container: HTMLElement): void {
           </div>
           <div class="field-footer">
             <span id="park-hint" class="field-hint">
-              Press <kbd class="kbd-badge">Ctrl</kbd>+<kbd class="kbd-badge">Enter</kbd> (or <kbd class="kbd-badge">Cmd</kbd>+<kbd class="kbd-badge">Enter</kbd>) to park
+              Press <kbd class="kbd-badge">Ctrl</kbd>+<kbd class="kbd-badge">Enter</kbd> (or <kbd class="kbd-badge">Cmd</kbd>+<kbd class="kbd-badge">Enter</kbd>) to review & park
             </span>
             <span id="speech-status" class="speech-status" role="status" aria-live="polite"></span>
           </div>
@@ -135,13 +138,11 @@ function attachFormHandlers(container: HTMLElement): void {
   });
 
   // Setup Web Speech API if supported
-  let usedVoice = false;
   let recognizer: SpeechRecognizer | null = null;
 
   if (voiceBtn && voiceLabel && speechStatus) {
     recognizer = createSpeechRecognizer({
       onTranscript: (transcript: string, isFinal: boolean) => {
-        usedVoice = true;
         const currentVal = textarea.value.trim();
         const prefix = currentVal ? currentVal + ' ' : '';
         textarea.value = prefix + transcript;
@@ -168,7 +169,7 @@ function attachFormHandlers(container: HTMLElement): void {
     });
   }
 
-  // Handle Form Submission
+  // Handle Form Submission -> Transitions to Review Screen (Phase 3)
   form.addEventListener('submit', (event: SubmitEvent) => {
     event.preventDefault();
 
@@ -187,30 +188,31 @@ function attachFormHandlers(container: HTMLElement): void {
       recognizer.stop();
     }
 
-    // Create card with empty fields for now as per Phase 2 requirements
-    const newCard = createCard({
+    // Deterministic extraction via rules
+    const cues = extractCardCues(rawText);
+    announce('Note parsed into three cues. Please review your card before saving.');
+
+    // Transition to Review View where all 3 fields are editable
+    renderReviewView({
+      container,
       rawText,
-      whereIWas: '',
-      nextAction: '',
-      waitingOn: '',
-      source: usedVoice ? 'rules' : 'manual',
-      status: 'parked',
+      cues,
+      onBackToCapture: () => {
+        renderCaptureForm(container);
+      },
+      onCardSaved: () => {
+        delete container.dataset.viewState;
+        const latest = getLatestParked();
+        if (latest) {
+          renderConfirmation(container, latest);
+        }
+      },
     });
-
-    saveCard(newCard);
-    clearDraft();
-
-    // Announce confirmation via aria-live
-    announce('Task parked successfully. Your note has been saved.');
-
-    // Transition to confirmation view
-    delete container.dataset.viewState;
-    renderConfirmation(container, rawText, newCard.createdAt);
   });
 }
 
-function renderConfirmation(container: HTMLElement, rawText: string, createdAt: number): void {
-  const timeFormatted = new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+function renderConfirmation(container: HTMLElement, card: Card): void {
+  const timeFormatted = new Date(card.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
   container.innerHTML = `
     <section class="card confirmation-card" aria-labelledby="confirmation-heading" tabindex="-1">
@@ -221,18 +223,50 @@ function renderConfirmation(container: HTMLElement, rawText: string, createdAt: 
       <header class="confirmation-header">
         <h1 id="confirmation-heading" class="confirmation-title">Parked! Your spot is saved.</h1>
         <p class="confirmation-subtitle">
-          You can safely close this tab or step away. PickUp has bookmarked your place.
+          You can safely step away or switch tasks. PickUp has bookmarked your place.
         </p>
       </header>
 
       <div class="parked-spot-card">
         <div class="parked-badge-row">
-          <span class="badge badge-parked">Parked Spot</span>
-          <time class="parked-time" datetime="${new Date(createdAt).toISOString()}">${timeFormatted}</time>
+          <span class="badge badge-parked">Parked Card</span>
+          <time class="parked-time" datetime="${new Date(card.createdAt).toISOString()}">${timeFormatted}</time>
         </div>
-        <div class="parked-text-content">
-          <p class="parked-raw-text">${escapeHtml(rawText)}</p>
+
+        <!-- 3 Structured Cues -->
+        <div class="card-cues-display">
+          <div class="cue-item">
+            <span class="cue-label">Where I was:</span>
+            <p class="cue-value">${escapeHtml(card.whereIWas || card.rawText)}</p>
+          </div>
+
+          <div class="cue-item cue-item-next">
+            <span class="cue-label">Next 5-minute action:</span>
+            <p class="cue-value cue-value-next">${escapeHtml(card.nextAction || 'Spend 5 minutes re-reading notes')}</p>
+          </div>
+
+          ${
+            card.waitingOn
+              ? `
+            <div class="cue-item">
+              <span class="cue-label">Waiting on:</span>
+              <p class="cue-value cue-value-waiting">${escapeHtml(card.waitingOn)}</p>
+            </div>
+          `
+              : ''
+          }
         </div>
+
+        ${
+          card.rawText && card.rawText !== card.whereIWas
+            ? `
+          <details class="raw-note-toggle">
+            <summary class="raw-note-summary">View original note</summary>
+            <p class="raw-note-text">${escapeHtml(card.rawText)}</p>
+          </details>
+        `
+            : ''
+        }
       </div>
 
       <div class="confirmation-actions">
@@ -244,9 +278,9 @@ function renderConfirmation(container: HTMLElement, rawText: string, createdAt: 
   `;
 
   // Focus the confirmation card for screen readers and keyboard users
-  const card = container.querySelector<HTMLElement>('.confirmation-card');
-  if (card) {
-    card.focus();
+  const cardEl = container.querySelector<HTMLElement>('.confirmation-card');
+  if (cardEl) {
+    cardEl.focus();
   }
 
   // Handle "Park Another Task" action

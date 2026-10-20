@@ -48,4 +48,15 @@ This document tracks significant design, technical, and architectural decisions 
   - Announce parking confirmation through an `aria-live="polite"` landmark.
 - **Consequences**: Instant capture with zero friction; resilient against accidental refreshes; completely keyboard operable.
 
+## ADR-0006: Deterministic Rule-Based Card Builder & Review Screen
+- **Status**: Accepted
+- **Context**: Turning unstructured thought dumps into structured cues (*Where I was*, *Next 5-minute action*, *Waiting on*) needs to work offline with zero latency, zero API keys, and zero claims of AI "understanding". Users must always retain final agency over their cues before saving.
+- **Decision**:
+  - Implement a deterministic extractor (`src/lib/cardBuilder.ts`) based on linguistic cues ("was doing", "stuck on", "next", "waiting on").
+  - Provide safe, gentle fallbacks when cues are missing (first sentence for *Where I was*, a bite-sized 5-minute prompt for *Next action*).
+  - Introduce an explicit Review Screen allowing editing of all three fields before saving to storage.
+  - Plain-language disclosure: explicitly label the suggested fields as a "Rule-based draft" without making claims that the app "understands" the user's text.
+- **Consequences**: Fast, offline-first, predictable parsing with complete user control.
+
+
 

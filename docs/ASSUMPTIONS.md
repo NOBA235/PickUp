@@ -19,6 +19,9 @@ This document records technical, browser API, and platform assumptions made duri
   - Requirement: Strict try/catch wrapping around every storage read/write operation with in-memory fallback so the app does not crash.
 - **Card Storage Retention**:
   - Assumption: Keeping the 20 most recent cards is optimal for low-friction memory retrieval without requiring manual purge controls or risking local storage overflow.
+- **Rule-Based Extraction Boundaries**:
+  - Assumption: Keyword and regex heuristics provide an immediate baseline for task breakdown without network overhead or latency. Because rules cannot semantically comprehend complex prose, the Review Screen is mandatory so the user can verify or modify extracted cues.
+
 
 
 ## Platform & Performance
