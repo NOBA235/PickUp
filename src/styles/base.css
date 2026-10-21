@@ -607,4 +607,346 @@ footer[role="contentinfo"],
   word-break: break-word;
 }
 
+/* ==========================================================================
+   Header Navigation (Phase 4)
+   ========================================================================== */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: var(--space-1) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.nav-btn:hover {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-primary);
+}
+
+.nav-btn.is-active,
+.nav-btn[aria-current="page"] {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.badge-counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Resume Screen (Phase 4)
+   ========================================================================== */
+.resume-screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.resume-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.resume-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.resume-title {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.resume-subtitle {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+}
+
+.resume-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.cue-block {
+  padding: var(--space-4);
+  background-color: var(--color-bg-subtle);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.cue-block-next {
+  background-color: var(--color-primary-light);
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.cue-heading {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+}
+
+.cue-heading-next {
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
+.cue-content {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-primary);
+}
+
+.cue-content-next {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+/* ==========================================================================
+   Warm-Up Timer (Phase 4)
+   ========================================================================== */
+.warmup-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border-color: var(--color-border);
+}
+
+.warmup-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.warmup-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.warmup-copy {
+  font-size: var(--text-base);
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.timer-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.timer-digits {
+  font-family: var(--font-mono);
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+  line-height: 1;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-subtle);
+  border: 1px solid var(--color-border-subtle);
+  min-width: 220px;
+}
+
+.timer-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.button-timer {
+  min-width: 140px;
+}
+
+/* ==========================================================================
+   Resume Actions Group
+   ========================================================================== */
+.resume-actions-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+#btn-back-at-it {
+  flex: 2 1 200px;
+}
+
+#btn-mark-done {
+  flex: 1 1 120px;
+}
+
+#btn-park-again {
+  flex: 1 1 120px;
+}
+
+/* ==========================================================================
+   Earlier Cards Accordion (Phase 4)
+   ========================================================================== */
+.earlier-cards-accordion {
+  margin-top: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-surface);
+  overflow: hidden;
+}
+
+.earlier-summary {
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  user-select: none;
+  background-color: var(--color-bg-subtle);
+}
+
+.earlier-summary:hover {
+  color: var(--color-text-primary);
+}
+
+.earlier-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+.earlier-card-item {
+  padding: var(--space-3);
+  background-color: var(--color-bg-subtle);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.earlier-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.earlier-date {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.earlier-where {
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.earlier-next {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.badge-status-parked {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  font-size: var(--text-xs);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.badge-status-resumed {
+  background-color: #0284c7;
+  color: #ffffff;
+  font-size: var(--text-xs);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.badge-status-done {
+  background-color: #16a34a;
+  color: #ffffff;
+  font-size: var(--text-xs);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================================================
+   Friendly Empty State (Phase 4)
+   ========================================================================== */
+.empty-state-card {
+  text-align: center;
+  padding: var(--space-10) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.empty-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.empty-title {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.empty-description {
+  max-width: 460px;
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+.empty-actions {
+  margin-top: var(--space-2);
+}
+
+
 

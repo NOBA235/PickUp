@@ -270,7 +270,10 @@ function renderConfirmation(container: HTMLElement, card: Card): void {
       </div>
 
       <div class="confirmation-actions">
-        <button type="button" id="btn-park-another" class="button button-primary button-large">
+        <button type="button" id="btn-resume-now" class="button button-primary button-large">
+          Resume with 2-Min Warm-Up →
+        </button>
+        <button type="button" id="btn-park-another" class="button button-secondary">
           Park Another Task
         </button>
       </div>
@@ -281,6 +284,17 @@ function renderConfirmation(container: HTMLElement, card: Card): void {
   const cardEl = container.querySelector<HTMLElement>('.confirmation-card');
   if (cardEl) {
     cardEl.focus();
+  }
+
+  // Handle "Resume Now" action
+  const resumeNowBtn = container.querySelector<HTMLButtonElement>('#btn-resume-now');
+  if (resumeNowBtn) {
+    resumeNowBtn.addEventListener('click', () => {
+      const resumeNavBtn = document.getElementById('nav-btn-resume');
+      if (resumeNavBtn) {
+        resumeNavBtn.click();
+      }
+    });
   }
 
   // Handle "Park Another Task" action
@@ -299,3 +313,4 @@ function escapeHtml(text: string): string {
   div.textContent = text;
   return div.innerHTML;
 }
+

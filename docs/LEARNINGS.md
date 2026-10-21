@@ -35,5 +35,14 @@ This log tracks surprises, roadblocks, unexpected browser quirks, and lessons le
 - **5-Minute Action Framing**:
   - *Observation*: Executive dysfunction and task resumption hesitation are drastically reduced when "next action" is phrased as a concrete 5-minute warm-up (e.g., "Spend 5 minutes to...") rather than a daunting open-ended project goal.
 
+## Phase 4: Resume Flow & 2-Minute Warm-Up Timer
+- **Screen Reader Politeness with Countdowns**:
+  - *Observation*: Live regions (`aria-live`) updating on every second create an unlistenable flood of speech synthesis for assistive tech users. Restricting announcements strictly to start and completion events ensures screen readers remain functional and calm.
+- **The Psychology of the 2-Minute Constraint**:
+  - *Observation*: Neurodivergent users often experience intense task initiation paralysis. Framing the warm-up with explicit permission to stop ("You can stop after") lowers the perceived threat and initiates behavioral momentum.
+- **Earlier History Scoping**:
+  - *Observation*: Capping the collapsed history to 3 items prevents past unfinished cards from becoming a guilt-inducing backlog.
+
+
 
 

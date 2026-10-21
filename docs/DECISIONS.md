@@ -58,5 +58,18 @@ This document tracks significant design, technical, and architectural decisions 
   - Plain-language disclosure: explicitly label the suggested fields as a "Rule-based draft" without making claims that the app "understands" the user's text.
 - **Consequences**: Fast, offline-first, predictable parsing with complete user control.
 
+## ADR-0007: Single-Purpose Resume Screen & 2-Minute Warm-Up Timer
+- **Status**: Accepted
+- **Context**: Task resumption is hindered by cognitive dread and overthinking. Resuming requires low cognitive load, visual clarity, and an immediate low-stakes onramp.
+- **Decision**:
+  - Dedicate a focused screen displaying only the latest parked task broken into large, high-contrast sections (*Where I was*, *Next 5-minute action*, *Waiting on*).
+  - Provide an integrated 2-minute countdown timer framed with the low-barrier prompt: *"Just start for 2 minutes. You can stop after."*
+  - Strict accessibility constraint: announce timer state via `aria-live="polite"` only on start and completion—never on every second tick—to prevent screen-reader inundation.
+  - No sound or alarm effects by default to keep the environment calm.
+  - Present three clear action buttons: *"I'm back at it"* (marks as `resumed`), *"Done"* (marks as `done`), and *"Park again"* (navigates to capture).
+  - Collapse earlier cards into an accessible `<details>` accordion displaying at most 3 historical items.
+- **Consequences**: Eliminates resumption anxiety; highly accessible; keeps cognitive load minimal.
+
+
 
 

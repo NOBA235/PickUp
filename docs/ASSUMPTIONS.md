@@ -21,6 +21,9 @@ This document records technical, browser API, and platform assumptions made duri
   - Assumption: Keeping the 20 most recent cards is optimal for low-friction memory retrieval without requiring manual purge controls or risking local storage overflow.
 - **Rule-Based Extraction Boundaries**:
   - Assumption: Keyword and regex heuristics provide an immediate baseline for task breakdown without network overhead or latency. Because rules cannot semantically comprehend complex prose, the Review Screen is mandatory so the user can verify or modify extracted cues.
+- **Warm-Up Timer Accessibility**:
+  - Assumption: Announcing time updates on every second destroys the utility of screen readers. In accordance with calm UI and WCAG accessibility standards, `aria-live` events are restricted solely to timer start and timer completion.
+
 
 
 

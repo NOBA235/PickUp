@@ -41,5 +41,14 @@ In compliance with hackathon rules and transparent development standards, this d
   - Designing the accessible Review Screen component (`src/ui/reviewView.ts`) with clear non-AI heuristic disclosures.
 - **Verification**: 25 unit tests passing in Vitest; complete TypeScript check and build validation.
 
+## Phase 4: Resume Screen & Warm-Up Timer
+- **Model / System**: Google DeepMind / Antigravity AI Assistant.
+- **Assisted Areas**:
+  - Authoring `src/lib/timer.ts` countdown logic with start, pause, reset, and tick formatting.
+  - Designing `src/ui/resumeView.ts` with prominent cues, 2-minute timer, polite aria-live constraints, and collapsed 3-card history.
+  - Coordinating bidirectional navigation between Park and Resume views in `src/ui/index.ts`.
+- **Verification**: 33 unit tests passing in Vitest; complete TypeScript checks and production bundle builds verified.
+
+
 
 
