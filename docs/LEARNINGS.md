@@ -43,6 +43,15 @@ This log tracks surprises, roadblocks, unexpected browser quirks, and lessons le
 - **Earlier History Scoping**:
   - *Observation*: Capping the collapsed history to 3 items prevents past unfinished cards from becoming a guilt-inducing backlog.
 
+## Phase 5: Peer Handoff & Serverless Hash Sharing
+- **Zero-Server URL Hash State**:
+  - *Observation*: Encoding the card payload into `window.location.hash` enables instant cross-device sharing without needing any backend server, database, or API keys.
+- **Untrusted Input Invariants**:
+  - *Observation*: Treating URL hash data as hostile (size bounding to 2048 bytes, structure validation, and DOM rendering exclusively via `textContent`) completely eliminates DOM-based XSS vectors.
+- **History Manipulation**:
+  - *Observation*: Using `history.replaceState` upon importing a shared card cleans the browser address bar cleanly without triggering an unneeded full page reload.
+
+
 
 
 

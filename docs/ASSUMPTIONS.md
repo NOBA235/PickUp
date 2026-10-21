@@ -10,7 +10,10 @@ This document records technical, browser API, and platform assumptions made duri
 
 - **Web Share API (`navigator.share`)**:
   - Assumption: Available on mobile browsers and macOS Safari; frequently unavailable on Windows desktop Chrome without flags or specific OS configurations.
-  - Requirement: Feature-detect `navigator.share` and `navigator.canShare`; fall back to Clipboard API copy link/card or inline text export.
+  - Implementation: Feature-detected at runtime; if unsupported, the native share button is omitted and users rely on the copy plain-text template and share link buttons.
+- **Serverless Handoff URL Hash**:
+  - Assumption: Standard browsers support URL lengths well beyond 2048 characters. A 2048-byte limit on the encoded card payload is ample for long notes while protecting against memory exhaustion and URL truncation.
+
 - **Clipboard API (`navigator.clipboard.writeText`)**:
   - Assumption: Requires secure context (HTTPS or localhost) and transient user activation (direct click handler).
   - Requirement: Wrapped in try/catch with fallback or prompt instruction if denied.

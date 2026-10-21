@@ -13,6 +13,13 @@
  */
 
 import { announce } from '../lib/announce';
+import {
+  copyToClipboard,
+  formatPlainTextCard,
+  generateShareUrl,
+  isWebShareSupported,
+  shareCard,
+} from '../lib/handoff';
 import { createWarmupTimer, WarmupTimer } from '../lib/timer';
 import { Card } from '../model/card';
 import { getLatestParked, listCards, updateCard } from '../storage';
@@ -200,6 +207,37 @@ function renderActiveResume(
         </button>
       </div>
 
+      <!-- Hand off section (Phase 5) -->
+      <div class="card handoff-share-card" aria-labelledby="handoff-share-heading">
+        <div class="handoff-share-header">
+          <h2 id="handoff-share-heading" class="handoff-share-title">Hand off to someone else</h2>
+          <p class="handoff-share-subtitle">
+            Need someone to take over? Pass your spot with zero accounts and zero servers.
+          </p>
+        </div>
+
+        <div class="handoff-share-buttons">
+          <button type="button" id="btn-copy-template" class="button button-secondary">
+            📋 Copy plain text
+          </button>
+
+          <button type="button" id="btn-copy-link" class="button button-secondary">
+            🔗 Copy share link
+          </button>
+
+          ${
+            isWebShareSupported()
+              ? `
+            <button type="button" id="btn-web-share" class="button button-secondary">
+              📤 Share...
+            </button>
+          `
+              : ''
+          }
+        </div>
+        <span id="handoff-feedback" class="handoff-feedback" role="status" aria-live="polite"></span>
+      </div>
+
       <!-- Earlier Cards Collapsed List (Max 3) -->
       ${renderEarlierCardsAccordion(earlierCards)}
     </section>
@@ -279,6 +317,40 @@ function setupTimerAndActions(
     parkAgainBtn.addEventListener('click', () => {
       activeTimer?.pause();
       onNavigateToPark();
+    });
+  }
+
+  // Hand off actions (Phase 5)
+  const copyTemplateBtn = container.querySelector<HTMLButtonElement>('#btn-copy-template');
+  const copyLinkBtn = container.querySelector<HTMLButtonElement>('#btn-copy-link');
+  const webShareBtn = container.querySelector<HTMLButtonElement>('#btn-web-share');
+  const feedbackEl = container.querySelector<HTMLElement>('#handoff-feedback');
+
+  if (copyTemplateBtn) {
+    copyTemplateBtn.addEventListener('click', async () => {
+      const text = formatPlainTextCard(card);
+      const success = await copyToClipboard(text);
+      if (feedbackEl) {
+        feedbackEl.textContent = success ? '✓ Plain-text template copied!' : 'Could not copy automatically.';
+      }
+      announce('Card copied to clipboard as plain text.');
+    });
+  }
+
+  if (copyLinkBtn) {
+    copyLinkBtn.addEventListener('click', async () => {
+      const url = generateShareUrl(card);
+      const success = await copyToClipboard(url);
+      if (feedbackEl) {
+        feedbackEl.textContent = success ? '✓ Share link copied!' : 'Could not copy link.';
+      }
+      announce('Share link copied to clipboard.');
+    });
+  }
+
+  if (webShareBtn) {
+    webShareBtn.addEventListener('click', async () => {
+      await shareCard(card);
     });
   }
 }

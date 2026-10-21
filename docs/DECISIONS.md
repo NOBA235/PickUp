@@ -70,6 +70,22 @@ This document tracks significant design, technical, and architectural decisions 
   - Collapse earlier cards into an accessible `<details>` accordion displaying at most 3 historical items.
 - **Consequences**: Eliminates resumption anxiety; highly accessible; keeps cognitive load minimal.
 
+## ADR-0008: Serverless Card Handoff & Untrusted Hash Sanitization
+- **Status**: Accepted
+- **Context**: Passing a card to a colleague or study partner must require zero accounts, zero cloud databases, and zero servers, while remaining strictly secure against malicious payloads or injection.
+- **Decision**:
+  - Implement three handoff vectors:
+    1. Plain-text template: formatted for Slack, Discord, email, or SMS.
+    2. Web Share API: feature-detected native system share sheet.
+    3. Serverless share link: entire card payload encoded in the URL hash (`#handoff=[base64]`).
+  - Security model for decoded hash data:
+    - Enforce a strict 2048-byte payload limit.
+    - Validate schema (disallow arrays, primitive types, non-conforming objects).
+    - Render untrusted data strictly via `element.textContent = ...` to guarantee complete immunity against HTML and script injection (XSS).
+  - Provide an import action ("Make it mine") that adopts the shared task into the recipient's local storage and cleans the URL hash.
+- **Consequences**: Effortless, zero-friction peer handoff with rock-solid security and privacy.
+
+
 
 
 

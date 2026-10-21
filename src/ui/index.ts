@@ -1,13 +1,14 @@
 /**
- * UI Layer Entry & View Router (Phase 4)
- * Coordinates navigation between Park and Resume screens.
+ * UI Layer Entry & View Router (Phases 4 & 5)
+ * Coordinates navigation between Park, Resume, and Handoff screens.
  */
 
 import { getLatestParked } from '../storage';
+import { renderHandoffView } from './handoffView';
 import { renderParkView } from './parkView';
 import { renderResumeView } from './resumeView';
 
-export type AppView = 'park' | 'resume';
+export type AppView = 'park' | 'resume' | 'handoff';
 
 let currentView: AppView = 'park';
 
@@ -61,10 +62,17 @@ export function initializeUI(): void {
 
     if (view === 'park') {
       renderParkView(viewContainer!);
-    } else {
+    } else if (view === 'resume') {
       renderResumeView({
         container: viewContainer!,
         onNavigateToPark: () => navigateTo('park'),
+      });
+    } else if (view === 'handoff') {
+      renderHandoffView({
+        container: viewContainer!,
+        hash: window.location.hash,
+        onImportSuccess: () => navigateTo('resume'),
+        onDismiss: () => navigateTo('park'),
       });
     }
   }
@@ -77,11 +85,26 @@ export function initializeUI(): void {
     navResumeBtn.addEventListener('click', () => navigateTo('resume'));
   }
 
-  // If there is an active parked task on initial load, take user directly to Resume screen
-  const initialParked = getLatestParked();
-  if (initialParked) {
-    navigateTo('resume');
-  } else {
-    navigateTo('park');
+  // Handle incoming hash routing (e.g. #handoff=...)
+  function checkHashRoute(): boolean {
+    if (typeof window !== 'undefined' && window.location.hash.startsWith('#handoff=')) {
+      navigateTo('handoff');
+      return true;
+    }
+    return false;
+  }
+
+  window.addEventListener('hashchange', () => {
+    checkHashRoute();
+  });
+
+  if (!checkHashRoute()) {
+    // If there is an active parked task on initial load, take user directly to Resume screen
+    const initialParked = getLatestParked();
+    if (initialParked) {
+      navigateTo('resume');
+    } else {
+      navigateTo('park');
+    }
   }
 }
