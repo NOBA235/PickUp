@@ -13,11 +13,13 @@
  * - Never crashes
  */
 
+import { CardSource } from '../model/card';
+
 export interface ExtractedCues {
   whereIWas: string;
   nextAction: string;
   waitingOn: string;
-  source: 'rules';
+  source?: CardSource;
 }
 
 const DEFAULT_NEXT_ACTION = 'Spend 5 minutes re-reading your last notes and outline the next small step.';

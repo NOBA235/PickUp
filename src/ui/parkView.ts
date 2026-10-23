@@ -11,9 +11,10 @@
  */
 
 import { announce } from '../lib/announce';
+import { polishCardWithAI } from '../lib/aiPolish';
 import { extractCardCues } from '../lib/cardBuilder';
 import { createSpeechRecognizer, isSpeechRecognitionSupported, SpeechRecognizer } from '../lib/speech';
-import { Card } from '../model/card';
+import { Card, CardSource } from '../model/card';
 import { getLatestParked } from '../storage';
 import { getDraft, saveDraft } from '../storage/draftStorage';
 import { renderReviewView } from './reviewView';
@@ -68,6 +69,16 @@ function renderCaptureForm(container: HTMLElement): void {
             </span>
             <span id="speech-status" class="speech-status" role="status" aria-live="polite"></span>
           </div>
+        </div>
+
+        <div class="ai-polish-toggle-box" style="margin-top: var(--space-3); margin-bottom: var(--space-4); padding: var(--space-2) var(--space-3); background-color: var(--color-bg-subtle); border-radius: var(--radius-md); border: 1px solid var(--color-border-subtle);">
+          <label class="settings-checkbox-label" for="toggle-ai-polish" style="min-height: auto; padding: 0;">
+            <input type="checkbox" id="toggle-ai-polish" name="useAiPolish" />
+            <span style="font-weight: 600;">Use AI to polish (sends your text to a server)</span>
+          </label>
+          <p class="settings-hint" style="margin-left: 28px; margin-top: var(--space-1);">
+            Optional: When checked, your note is sent to a serverless endpoint to refine phrasing. When unchecked, your card is built 100% locally on this device using deterministic rules.
+          </p>
         </div>
 
         <div class="actions-group">
@@ -169,8 +180,8 @@ function attachFormHandlers(container: HTMLElement): void {
     });
   }
 
-  // Handle Form Submission -> Transitions to Review Screen (Phase 3)
-  form.addEventListener('submit', (event: SubmitEvent) => {
+  // Handle Form Submission -> Transitions to Review Screen (Phase 3 & Phase 8)
+  form.addEventListener('submit', async (event: SubmitEvent) => {
     event.preventDefault();
 
     const rawText = textarea.value.trim();
@@ -188,15 +199,36 @@ function attachFormHandlers(container: HTMLElement): void {
       recognizer.stop();
     }
 
-    // Deterministic extraction via rules
-    const cues = extractCardCues(rawText);
-    announce('Note parsed into three cues. Please review your card before saving.');
+    const useAiToggle = form.querySelector<HTMLInputElement>('#toggle-ai-polish');
+    const isAiRequested = Boolean(useAiToggle?.checked);
+
+    // Initial deterministic extraction via rules
+    const ruleCues = extractCardCues(rawText);
+
+    let finalCues = ruleCues;
+    let source: CardSource = 'rules';
+
+    if (isAiRequested) {
+      const submitBtn = form.querySelector<HTMLButtonElement>('#btn-park-submit');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Polishing with AI...';
+      }
+      announce('Polishing card with AI (sends text to server)...');
+
+      const polishResult = await polishCardWithAI(rawText, ruleCues);
+      finalCues = polishResult.cues;
+      source = polishResult.source;
+    } else {
+      announce('Note parsed using rules. Please review your card before saving.');
+    }
 
     // Transition to Review View where all 3 fields are editable
     renderReviewView({
       container,
       rawText,
-      cues,
+      cues: finalCues,
+      source,
       onBackToCapture: () => {
         renderCaptureForm(container);
       },
@@ -229,6 +261,9 @@ function renderConfirmation(container: HTMLElement, card: Card): void {
 
       <div class="parked-spot-card">
         <div class="parked-badge-row">
+          <span class="badge ${card.source === 'ai' ? 'badge-ai' : 'badge-rules'}">
+            ${card.source === 'ai' ? 'Polished with AI' : 'Made without AI'}
+          </span>
           <span class="badge badge-parked">Parked Card</span>
           <time class="parked-time" datetime="${new Date(card.createdAt).toISOString()}">${timeFormatted}</time>
         </div>

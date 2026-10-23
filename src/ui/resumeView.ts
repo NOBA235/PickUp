@@ -98,7 +98,12 @@ function renderActiveResume(
       <header class="resume-header">
         <div class="resume-title-row">
           <h1 id="resume-heading" class="resume-title">Resume your spot</h1>
-          <span class="badge badge-parked">Parked at ${timeFormatted}</span>
+          <div style="display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap;">
+            <span class="badge ${card.source === 'ai' ? 'badge-ai' : 'badge-rules'}">
+              ${card.source === 'ai' ? 'Polished with AI' : 'Made without AI'}
+            </span>
+            <span class="badge badge-parked">Parked at ${timeFormatted}</span>
+          </div>
         </div>
         <p class="resume-subtitle">
           PickUp held your place. Review your 3 cues and warm up your focus below.
