@@ -65,8 +65,8 @@ pickup/
 ### Setup
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/pickup.git
-cd pickup
+git clone https://github.com/NOBA235/PickUp.git
+cd PickUp
 
 # Install dev dependencies
 npm install

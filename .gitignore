@@ -20,3 +20,18 @@ coverage/
 Thumbs.db
 *.swp
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE & Editor configs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Deployment & Build caches
+.vercel/
+.netlify/
+*.tsbuildinfo
