@@ -98,6 +98,21 @@ This document tracks significant design, technical, and architectural decisions 
   - Implement Web App Manifest (`public/manifest.webmanifest`) and Service Worker (`public/sw.js`) with precaching and stale-while-revalidate for seamless offline installability.
 - **Consequences**: Full user agency over reading and sensory experience, 100% offline-capable, zero external network dependency.
 
+## ADR-0010: Evidence Mode & Local-Only Usability Study Architecture
+- **Status**: Accepted
+- **Context**: Hackathon evaluation requires empirically testing task resumption latency and subjective disorientation without compromising the privacy-first, zero-cloud architecture.
+- **Decision**:
+  - Implement a hidden `?study=1` mode that activates a researcher-facing suite:
+    1. **Integrated Stopwatch**: Accurately tracks resumption time in seconds and tenths.
+    2. **Anonymous Identification**: Participant codes only (`P01`, `P02`, etc.); strictly no names, emails, or personal identifiers.
+    3. **Condition Toggle**: A/B comparison between "With PickUp" and "Without PickUp".
+    4. **Subjective Disorientation Rating**: 1-to-5 Likert scale capturing working memory loss.
+    5. **Aggregate Summary**: Dynamic computation of sample size ($n$), condition trial counts, and average metrics.
+    6. **Client-Side CSV Export**: Generates RFC 4180 compliant CSV files entirely in browser memory via Blob URLs.
+  - Persist trials under `pickup_study_trials_v1` in `localStorage` with in-memory fallback.
+- **Consequences**: Enables reproducible, ethical, transparent usability evaluation with zero telemetry or remote leakage.
+
+
 
 
 

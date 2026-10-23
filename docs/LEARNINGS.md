@@ -61,6 +61,15 @@ This log tracks surprises, roadblocks, unexpected browser quirks, and lessons le
 - **Stale-While-Revalidate for Offline First**:
   - *Observation*: Combining cache precaching with stale-while-revalidate allows the application to boot instantaneously offline, while updating assets cleanly whenever connectivity is restored.
 
+## Phase 7: Evidence Mode & User Testing
+- **Local Data Portability via Blob URLs**:
+  - *Observation*: Generating RFC 4180 CSV exports entirely client-side using `URL.createObjectURL(new Blob(...))` allows full research data export without requiring any cloud databases or backend endpoints.
+- **Counterbalanced Usability Evaluation**:
+  - *Observation*: Alternating order between Condition A (control) and Condition B (intervention) across participants neutralizes task familiarity and warm-up bias during resumption testing.
+- **Honest Statistical Framing**:
+  - *Observation*: Highlighting exact sample size ($n=3\text{--}5$) and explicitly stating qualitative and experimental limitations prevents pseudo-scientific overclaiming and respects user trust.
+
+
 
 
 

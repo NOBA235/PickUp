@@ -34,7 +34,15 @@ This document records technical, browser API, and platform assumptions made duri
 - **HTML Dialog Element Support**:
   - Assumption: `<dialog>` is natively supported across all modern evergreen browsers (Chrome 37+, Firefox 98+, Safari 15.4+). In non-dialog environments, fallback attribute toggling (`open`) ensures accessible rendering.
 
+- **Stopwatch Precision & Performance API**:
+  - Assumption: `performance.now()` provides sub-millisecond precision for timing resumption latency in modern browsers, falling back gracefully to `Date.now()`.
+- **Client-Side CSV Export**:
+  - Assumption: Modern browsers support `URL.createObjectURL(new Blob(...))` for initiating client-side file downloads of small CSV tables (10–500 rows) with zero server infrastructure.
+- **Hidden Study Mode Query Discovery**:
+  - Assumption: Gating evidence mode behind `?study=1` keeps the public consumer interface uncluttered and calm, while providing researchers immediate access to stopwatch and trial logging without separate developer builds.
+
 ## Platform & Performance
 - **Zero Network Dependency**: Core app runs completely client-side without network requests.
 - **Accessibility Baseline**: WCAG 2.1 AA compliance, minimum 44x44px touch targets, visible focus indicators, and `prefers-reduced-motion` support.
+
 
