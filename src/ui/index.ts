@@ -7,6 +7,7 @@ import { getLatestParked } from '../storage';
 import { renderHandoffView } from './handoffView';
 import { renderParkView } from './parkView';
 import { renderResumeView } from './resumeView';
+import { openSettingsDialog } from './settingsDialog';
 
 export type AppView = 'park' | 'resume' | 'handoff';
 
@@ -16,6 +17,7 @@ export function initializeUI(): void {
   const viewContainer = document.getElementById('app-view');
   const navParkBtn = document.getElementById('nav-btn-park') as HTMLButtonElement | null;
   const navResumeBtn = document.getElementById('nav-btn-resume') as HTMLButtonElement | null;
+  const navSettingsBtn = document.getElementById('nav-btn-settings') as HTMLButtonElement | null;
   const badgeCounter = document.getElementById('nav-parked-badge') as HTMLElement | null;
 
   if (!viewContainer) {
@@ -83,6 +85,12 @@ export function initializeUI(): void {
 
   if (navResumeBtn) {
     navResumeBtn.addEventListener('click', () => navigateTo('resume'));
+  }
+
+  if (navSettingsBtn) {
+    navSettingsBtn.addEventListener('click', () => {
+      openSettingsDialog(navSettingsBtn);
+    });
   }
 
   // Handle incoming hash routing (e.g. #handoff=...)

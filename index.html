@@ -4,12 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#1e40af" />
     <meta
       name="description"
       content="PickUp — A bookmark for your brain. Park your mental state in 10 seconds and resume focus effortlessly after an interruption."
     />
     <title>PickUp</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
     <link rel="stylesheet" href="./src/styles/base.css" />
+    <script>
+      (function() {
+        try {
+          var raw = localStorage.getItem('pickup_settings_v1');
+          if (raw) {
+            var s = JSON.parse(raw);
+            var r = document.documentElement;
+            if (s.textSize) r.setAttribute('data-text-size', s.textSize);
+            if (s.dyslexicFont) r.setAttribute('data-font', 'dyslexic');
+            if (s.theme) r.setAttribute('data-theme', s.theme);
+            if (s.reduceMotion) r.setAttribute('data-reduce-motion', s.reduceMotion);
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <!-- Accessible Skip Link (First focusable element) -->
@@ -26,6 +45,9 @@
           <button type="button" id="nav-btn-resume" class="nav-btn">
             Resume
             <span id="nav-parked-badge" class="badge-counter" style="display: none;" aria-label="1 parked task">1</span>
+          </button>
+          <button type="button" id="nav-btn-settings" class="nav-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="settings-dialog">
+            Settings
           </button>
         </nav>
       </header>

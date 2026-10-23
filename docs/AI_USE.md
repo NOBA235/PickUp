@@ -58,6 +58,17 @@ In compliance with hackathon rules and transparent development standards, this d
   - Authoring 10 comprehensive unit tests covering round trips, malformed input, oversized payloads, and XSS safety.
 - **Verification**: 43 unit tests passing in Vitest; complete TypeScript checks and production builds verified.
 
+## Phase 6: Accessibility, Settings & Offline PWA
+- **Model / System**: Google DeepMind / Antigravity AI Assistant.
+- **Assisted Areas**:
+  - Designing settings data model, schema sanitizer, and defensive storage in `src/storage/settingsStorage.ts`.
+  - Implementing accessible `<dialog id="settings-dialog">` controller (`src/ui/settingsDialog.ts`) with keyboard focus management and live preview.
+  - Formulating CSS token overrides for 3 text sizes, dyslexia-friendly spacing stack, high-contrast theme (WCAG AAA >= 7:1), and reduced motion in `src/styles/tokens.css` and `src/styles/base.css`.
+  - Authoring offline Web App Manifest (`public/manifest.webmanifest`), bookmark brand icon (`public/icons/icon.svg`), and offline Service Worker (`public/sw.js`).
+  - Creating `docs/A11Y_CHECKLIST.md` with step-by-step manual keyboard, VoiceOver, NVDA, TalkBack, and Lighthouse audit guidelines.
+- **Verification**: 53 unit tests passing in Vitest; complete TypeScript checks and production builds verified.
+
+
 
 
 

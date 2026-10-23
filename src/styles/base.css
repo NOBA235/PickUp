@@ -1047,3 +1047,118 @@ footer[role="contentinfo"],
   padding-top: var(--space-3);
   border-top: 1px solid var(--color-border-subtle);
 }
+
+/* ==========================================================================
+   Phase 6: Accessible Settings Dialog & Controls
+   ========================================================================== */
+.settings-dialog {
+  background-color: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-lg);
+  max-width: 520px;
+  width: 92vw;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.settings-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.65);
+}
+
+.settings-dialog:not([open]) {
+  display: none;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: var(--space-3);
+}
+
+.settings-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.settings-fieldset {
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  background-color: var(--color-bg-subtle);
+}
+
+.settings-legend {
+  font-weight: 700;
+  font-size: var(--text-xs);
+  padding: 0 var(--space-2);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.settings-options-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.settings-radio-label,
+.settings-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-target-min);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  user-select: none;
+  transition: background-color var(--transition-fast);
+}
+
+.settings-radio-label:hover,
+.settings-checkbox-label:hover {
+  background-color: var(--color-bg-surface);
+}
+
+.settings-radio-label input[type="radio"],
+.settings-checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.settings-hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-1);
+  padding-left: var(--space-2);
+  line-height: var(--leading-normal);
+}
+
+.settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border-subtle);
+}
+

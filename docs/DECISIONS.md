@@ -85,6 +85,20 @@ This document tracks significant design, technical, and architectural decisions 
   - Provide an import action ("Make it mine") that adopts the shared task into the recipient's local storage and cleans the URL hash.
 - **Consequences**: Effortless, zero-friction peer handoff with rock-solid security and privacy.
 
+## ADR-0009: Accessibility Settings, Dyslexia-Friendly Stack, and Offline PWA
+- **Status**: Accepted
+- **Context**: Users have diverse neurodivergent, visual, and cognitive needs (e.g., dyslexia, low vision, vestibular motion sensitivity). Additionally, the app must install and run entirely offline with zero remote telemetry.
+- **Decision**:
+  - Implement a dedicated, accessible `<dialog>` settings controller:
+    1. **Text Size Scaling**: Normal (100%), Large (112.5%), Extra Large (125%) via `html[data-text-size]` scaling root `rem`.
+    2. **Dyslexia-Friendly Typography**: Self-contained fallback system font stack (`OpenDyslexic`, `Lexie Readable`, `Comic Sans MS`, `Trebuchet MS`, `Verdana`) with enhanced letter-spacing (0.04em), word-spacing (0.08em), and line-height (1.75–1.9) with zero external network requests.
+    3. **Color Themes**: Follow System, Explicit Light, Explicit Dark, and High Contrast (pure black canvas, pure white text, yellow accent, cyan focus, >=7:1 contrast exceeding WCAG AAA).
+    4. **Reduced Motion Override**: Manual toggle to enforce static transitions (`0.01ms`) regardless of OS preferences.
+  - Persist settings under `pickup_settings_v1` in `localStorage` with in-memory fallback.
+  - Implement Web App Manifest (`public/manifest.webmanifest`) and Service Worker (`public/sw.js`) with precaching and stale-while-revalidate for seamless offline installability.
+- **Consequences**: Full user agency over reading and sensory experience, 100% offline-capable, zero external network dependency.
+
+
 
 
 

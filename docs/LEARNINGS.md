@@ -51,6 +51,17 @@ This log tracks surprises, roadblocks, unexpected browser quirks, and lessons le
 - **History Manipulation**:
   - *Observation*: Using `history.replaceState` upon importing a shared card cleans the browser address bar cleanly without triggering an unneeded full page reload.
 
+## Phase 6: Accessibility Settings & Offline PWA
+- **Zero-FOUC Data-Attribute Theming**:
+  - *Observation*: Applying persisted accessibility settings (text size, dyslexic typography, theme, motion) directly to `document.documentElement` data-attributes via an inline snippet in `<head>` ensures zero flash of unstyled content upon hard reload.
+- **Root Rem Scaling for Accessible Text Sizing**:
+  - *Observation*: Controlling text size scaling via `html[data-text-size]` on the root element (`100%`, `112.5%`, `125%`) proportionally scales all typography, touch targets, and rem-based spacing across the entire application without breaking layouts.
+- **Dyslexia-Friendly Typography Without Web Font Latency**:
+  - *Observation*: Enhancing letter-spacing (`0.04em`), word-spacing (`0.08em`), and line-height (`1.75`) on a fallback system stack (`OpenDyslexic`, `Comic Sans MS`, `Trebuchet MS`, `Verdana`) yields immediate legibility improvements for dyslexic readers without any external font downloads or privacy leaks.
+- **Stale-While-Revalidate for Offline First**:
+  - *Observation*: Combining cache precaching with stale-while-revalidate allows the application to boot instantaneously offline, while updating assets cleanly whenever connectivity is restored.
+
+
 
 
 

@@ -27,9 +27,14 @@ This document records technical, browser API, and platform assumptions made duri
 - **Warm-Up Timer Accessibility**:
   - Assumption: Announcing time updates on every second destroys the utility of screen readers. In accordance with calm UI and WCAG accessibility standards, `aria-live` events are restricted solely to timer start and timer completion.
 
-
-
+- **Offline Service Worker Scope & Precaching**:
+  - Assumption: Modern browsers support Cache Storage and Service Workers in secure contexts (HTTPS or localhost). Stale-while-revalidate provides instant offline page rendering with navigation fallback to `index.html`.
+- **System Font Dyslexia Stack**:
+  - Assumption: Self-hosting web fonts adds bandwidth overhead and potential layout shift. A robust system font stack (`OpenDyslexic`, `Comic Sans MS`, `Trebuchet MS`, `Verdana`) combined with increased letter spacing (`0.04em`), word spacing (`0.08em`), and line height (`1.75`) delivers significant legibility benefits without requiring external HTTP requests.
+- **HTML Dialog Element Support**:
+  - Assumption: `<dialog>` is natively supported across all modern evergreen browsers (Chrome 37+, Firefox 98+, Safari 15.4+). In non-dialog environments, fallback attribute toggling (`open`) ensures accessible rendering.
 
 ## Platform & Performance
 - **Zero Network Dependency**: Core app runs completely client-side without network requests.
 - **Accessibility Baseline**: WCAG 2.1 AA compliance, minimum 44x44px touch targets, visible focus indicators, and `prefers-reduced-motion` support.
+
